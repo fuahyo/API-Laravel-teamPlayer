@@ -2,13 +2,17 @@
 
 namespace App\Enums;
 
-use BenSampo\Enum\Enum;
-
-final class PlayerSkill extends Enum
+class PlayerSkillType
 {
     const DEFENSE = 'defense';
     const ATTACK = 'attack';
     const SPEED = 'speed';
     const STRENGTH = 'strength';
     const STAMINA = 'stamina';
+
+    public static function getKeyByValue($value)
+    {
+        $constants = (new \ReflectionClass(__CLASS__))->getConstants();
+        return array_search($value, $constants);
+    }
 }

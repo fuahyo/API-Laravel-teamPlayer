@@ -17,7 +17,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $name
  * @property PlayerPosition $position
  * @property PlayerSkill $skill
- */
+ */ 
+
 class Player extends Model
 {
     use HasFactory;
@@ -30,7 +31,7 @@ class Player extends Model
     ];
 
     protected $casts = [
-        'position' => PlayerPosition::class
+        'position' => 'string'
     ];
 
     protected $with = ['skills'];
@@ -38,5 +39,18 @@ class Player extends Model
     public function skills(): HasMany
     {
         return $this->hasMany(PlayerSkill::class);
+    }
+
+    public function setPositionAttribute($value)
+    {
+        if (!PlayerPosition::getKeyByValue($value)) {
+            throw new \InvalidArgumentException("Invalid value for position: $value");
+        }
+        $this->attributes['position'] = $value;
+    }
+
+    public function getPositionAttribute($value)
+    {
+        return $value;
     }
 }

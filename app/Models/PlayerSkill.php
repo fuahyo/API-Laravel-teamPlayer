@@ -7,6 +7,7 @@
 
 namespace App\Models;
 
+use App\Enums\PlayerSkillType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -25,11 +26,24 @@ class PlayerSkill extends Model
     ];
 
     protected $casts = [
-        'skill' => \App\Enums\PlayerSkill::class
+        'skill' => 'string'
     ];
 
     public function player(): BelongsTo
     {
         return $this->belongsTo(Player::class);
+    }
+
+    public function setSkillAttribute($value)
+    {
+        if (!PlayerSkillType::getKeyByValue($value)) {
+            throw new \InvalidArgumentException("Invalid value for skill: $value");
+        }
+        $this->attributes['skill'] = $value;
+    }
+
+    public function getSkillAttribute($value)
+    {
+        return $value;
     }
 }
