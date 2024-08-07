@@ -2,17 +2,11 @@
 
 namespace App\Enums;
 
-class PlayerSkillType
+enum PlayerSkill: string
 {
-    const DEFENSE = 'defense';
-    const ATTACK = 'attack';
-    const SPEED = 'speed';
-    const STRENGTH = 'strength';
-    const STAMINA = 'stamina';
-
-    public static function getKeyByValue($value)
-    {
-        $constants = (new \ReflectionClass(__CLASS__))->getConstants();
-        return array_search($value, $constants);
-    }
+    case DEFENSE = 'defense';
+    case ATTACK = 'attack';
+    case SPEED = 'speed';
+    case STRENGTH = 'strength';
+    case STAMINA = 'stamina';
 }
